@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Отзывы - rep</title>
+</head>
+<head th:insert="blocks/head :: head"></head>
+<body id="page-top" class="d-flex flex-column min-vh-100">
+<div id="wrapper" class="wrapper flex-grow-1">
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <div th:insert="blocks/nav :: nav"></div>
+            <div class="container-fluid">
+                <h3 class="text-dark mb-4">Отзывы</h3>
+                <div th:if="${role == 'CLIENT'}" class="card shadow" style="margin-bottom: 20px;">
+                    <div class="card-header py-3">
+                        <p class="m-0 fw-bold" style="color: rgb(78,115,223);">Добавить отзыв</p>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="/reviews/add">
+                            <div class="row">
+                                <div class="col">
+                                    <input class="form-control" type="text" name="review" required="">
+                                </div>
+                                <div class="col-2">
+                                    <select class="form-select" name="classifier">
+                                        <option th:each="c : ${classifiers}" th:value="${c}"
+                                                th:label="${c.name}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-1 d-xl-flex justify-content-xl-center">
+                                    <button class="btn btn-primary" type="submit">Добавить</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div th:each="r : ${reviews}" class="col-6 mb-2">
+                        <div class="card shadow">
+                            <div class="card-header py-3">
+                                <p class="m-0 fw-bold" style="color: rgb(78,115,223);">
+                                    <span th:text="${r.username}"></span>
+                                    &nbsp;|&nbsp;
+                                    <span th:text="${r.date}"></span>
+                                    &nbsp;|&nbsp;
+                                    <span th:text="${r.classifier.name}"></span>
+                                </p>
+                            </div>
+                            <div class="card-body">
+                                <p th:text="${r.review}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+</div>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/theme.js"></script>
+</body>
+
+</html>

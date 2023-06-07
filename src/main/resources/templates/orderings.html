@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Заказы - rep</title>
+</head>
+<head th:insert="blocks/head :: head"></head>
+<body id="page-top" class="d-flex flex-column min-vh-100">
+<div id="wrapper" class="wrapper flex-grow-1">
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <div th:insert="blocks/nav :: nav"></div>
+            <div class="container-fluid">
+                <h3 class="text-dark mb-4">Заявки</h3>
+                <div th:if="${role == 'CLIENT'}" class="card shadow" style="margin-bottom: 10px;">
+                    <div class="card-header py-3">
+                        <p class="m-0 fw-bold" style="color: rgb(78,115,223);">Добавить</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col d-xl-flex justify-content-xl-center">
+                                <p class="lead" style="font-weight: bold;">Дата начало работ</p>
+                            </div>
+                            <div class="col" style="max-width: 110px;"></div>
+                        </div>
+                        <form method="post" action="/orderings/add" style="margin-bottom: 10px;">
+                            <div class="row">
+                                <div class="col"><input class="form-control" type="date" name="date" required></div>
+                                <div class="col d-xl-flex justify-content-xl-center" style="max-width: 110px;">
+                                    <button class="btn btn-primary" type="submit">Добавить</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div th:if="${designList}" class="card shadow" style="margin-bottom: 10px;">
+                    <div class="card-header py-3">
+                        <p style="color: rgb(78,115,223);" class="m-0 fw-bold">Оформить</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col d-xl-flex justify-content-xl-center">
+                                <p class="lead" style="font-weight: bold;">Дата</p>
+                            </div>
+                            <div class="col d-xl-flex justify-content-xl-center">
+                                <p class="lead" style="font-weight: bold;">Стоимость</p>
+                            </div>
+                            <div class="col d-xl-flex justify-content-xl-center">
+                                <p class="lead" style="font-weight: bold;">Статус</p>
+                            </div>
+                            <div class="col" style="max-width: 110px;"></div>
+                            <div class="col" style="max-width: 110px;"></div>
+                            <div class="col" style="max-width: 110px;"></div>
+                            <div class="col" style="max-width: 110px;"></div>
+                        </div>
+                        <form th:each="d : ${designList}" method="post" th:action="'/orderings/edit/' + ${d.id}"
+                              style="margin-bottom: 10px;">
+                            <div class="row">
+                                <div class="col"><input th:value="${d.date}" class="form-control" type="date"
+                                                        name="date" required></div>
+                                <div class="col"><input th:value="${d.getPrice()}" class="form-control" type="number"
+                                                        name="price" disabled>
+                                </div>
+                                <div class="col">
+                                    <input th:value="${d.status.name}" class="form-control" type="text" disabled>
+                                </div>
+                                <div class="col d-xl-flex justify-content-xl-center" style="max-width: 110px;">
+                                    <button class="btn btn-success" type="submit" style="color: var(--bs-card-bg);">
+                                        Изменить
+                                    </button>
+                                </div>
+                                <div class="col d-xl-flex justify-content-xl-center" style="max-width: 110px;">
+                                    <a th:if="${d.getPrice()}" class="btn btn-primary" role="button"
+                                       th:href="'/orderings/order/' + ${d.id}"
+                                       style="color: var(--bs-card-bg);">Заказать</a>
+                                </div>
+                                <div class="col d-xl-flex justify-content-xl-center" style="max-width: 110px;">
+                                    <a class="btn btn-info" role="button" style="color: var(--bs-card-bg);"
+                                       th:href="'/orderings/' + ${d.id} + '/details'">Детали</a>
+                                </div>
+                                <div class="col d-xl-flex justify-content-xl-center" style="max-width: 110px;">
+                                    <a class="btn btn-danger" role="button" th:href="'/orderings/delete/' + ${d.id}">Удалить</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div th:if="${orderingsClient}" class="card shadow" style="margin-bottom: 10px;">
+                    <div class="card-header py-3">
+                        <p style="color: rgb(78,115,223);" class="m-0 fw-bold">Состояния</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col d-xl-flex justify-content-xl-center">
+                                <p class="lead" style="font-weight: bold;">Дата</p>
+                            </div>
+                            <div class="col d-xl-flex justify-content-xl-center">
+                                <p class="lead" style="font-weight: bold;">Стоимость</p>
+                            </div>
+                            <div class="col d-xl-flex justify-content-xl-center">
+                                <p class="lead" style="font-weight: bold;">Статус</p>
+                            </div>
+                            <div class="col" style="max-width: 110px;"></div>
+                        </div>
+                        <form th:each="oc : ${orderingsClient}" style="margin-bottom: 10px;">
+                            <div class="row">
+                                <div class="col">
+                                    <input class="form-control" type="date" disabled th:value="${oc.date}">
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" type="number" disabled th:value="${oc.getPrice()}">
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" type="text" disabled th:value="${oc.status.name}">
+                                </div>
+                                <div class="col d-xl-flex justify-content-xl-center" style="max-width: 110px;">
+                                    <a class="btn btn-info" role="button" style="color: var(--bs-card-bg);"
+                                       th:href="'/orderings/' + ${oc.id} + '/details/disabled'">Детали</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div th:if="${orderingsManager}" class="card shadow" style="margin-bottom: 10px;">
+                    <div class="card-header py-3">
+                        <p style="color: rgb(78,115,223);" class="m-0 fw-bold">Состояния</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col d-xl-flex justify-content-xl-center">
+                                <p class="lead" style="font-weight: bold;">Дата</p>
+                            </div>
+                            <div class="col d-xl-flex justify-content-xl-center">
+                                <p class="lead" style="font-weight: bold;">Стоимость</p>
+                            </div>
+                            <div class="col d-xl-flex justify-content-xl-center">
+                                <p class="lead" style="font-weight: bold;">Статус</p>
+                            </div>
+                            <div class="col" style="max-width: 110px;"></div>
+                            <div class="col" style="max-width: 130px;"></div>
+                            <div class="col" style="max-width: 120px;"></div>
+                            <div class="col" style="max-width: 120px;"></div>
+                        </div>
+                        <form th:each="om : ${orderingsManager}" style="margin-bottom: 10px;">
+                            <div class="row">
+                                <div class="col"><input class="form-control" type="date" disabled th:value="${om.date}">
+                                </div>
+                                <div class="col"><input class="form-control" type="number" disabled
+                                                        th:value="${om.getPrice()}">
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" type="text" disabled th:value="${om.status.name}">
+                                </div>
+                                <div class="col d-xl-flex justify-content-xl-center" style="max-width: 110px;">
+                                    <a class="btn btn-info" role="button" style="color: var(--bs-card-bg);"
+                                       th:href="'/orderings/' + ${om.id} + '/details/disabled'">Детали</a>
+                                </div>
+                                <div class="col d-xl-flex justify-content-xl-center" style="max-width: 130px;">
+                                    <a th:if="${om.status.name() == 'IN_WAITING'}" class="btn btn-primary" role="button"
+                                       style="color: var(--bs-card-bg);" th:href="'/orderings/confirmed/' + ${om.id}">Подтверждено</a>
+                                </div>
+                                <div class="col d-xl-flex justify-content-xl-center" style="max-width: 120px;">
+                                    <a th:if="${om.status.name() == 'IN_WAITING'}" class="btn btn-danger" role="button"
+                                       style="color: var(--bs-card-bg);" th:href="'/orderings/refused/' + ${om.id}">Отказано</a>
+                                </div>
+                                <div class="col d-xl-flex justify-content-xl-center" style="max-width: 120px;">
+                                    <a th:if="${om.status.name() == 'CONFIRMED'}" class="btn btn-success" role="button"
+                                       style="color: var(--bs-card-bg);" th:href="'/orderings/completed/' + ${om.id}">Завершено</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+</div>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/theme.js"></script>
+</body>
+
+</html>

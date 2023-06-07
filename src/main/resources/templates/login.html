@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Вход - rep</title>
+</head>
+<head th:insert="blocks/head :: head"></head>
+<body class="bg-gradient-primary" style="background: var(--bs-orange);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-12 col-xl-10">
+                <div class="card shadow-lg o-hidden border-0 my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-auto col-lg-6 col-xl-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h4 class="text-dark mb-4">С возвращением!</h4>
+                                    </div>
+                                    <div th:if="${param.error}" class="alert alert-warning" role="alert">
+                                        <strong>Некорректный ввод логина или пароля!</strong>
+                                    </div>
+                                    <form class="user" action="/login" method="post">
+                                        <div class="mb-3"><input class="form-control form-control-user" type="text" aria-describedby="emailHelp" placeholder="Введите логин" name="username"></div>
+                                        <div class="mb-3"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Введите пароль" name="password"></div>
+                                        <div class="mb-3">
+                                            <div class="custom-control custom-checkbox small"></div>
+                                        </div><button class="btn btn-primary d-block btn-user w-100" type="submit">Вход</button>
+                                        <hr>
+                                    </form>
+                                    <div class="text-center"><a class="small" href="/reg">Регистрация</a></div>
+                                    <div class="text-center"><a class="small" href="/">На главную</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/theme.js"></script>
+</body>
+
+</html>

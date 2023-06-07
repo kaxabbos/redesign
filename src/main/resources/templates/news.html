@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Новости - rep</title>
+</head>
+<head th:insert="blocks/head :: head"></head>
+<body id="page-top" class="d-flex flex-column min-vh-100">
+<div id="wrapper" class="wrapper flex-grow-1">
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <div th:insert="blocks/nav :: nav"></div>
+            <div class="container-fluid">
+                <h3 class="text-dark mb-4">Новости</h3>
+                <div th:if="${message}" class="alert alert-warning" role="alert">
+                    <strong th:text="${message}"></strong>
+                </div>
+                <div th:if="${role == 'ADMIN'}" class="card shadow" style="margin-bottom: 20px;">
+                    <div class="card-header py-3">
+                        <p class="m-0 fw-bold" style="color: rgb(78,115,223);">Добавить новость</p>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="/news/add" enctype="multipart/form-data">
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col">
+                                    <input class="form-control" type="text" name="name" required
+                                           placeholder="Введите название">
+                                </div>
+                                <div class="col-3 d-xl-flex justify-content-xl-center">
+                                    <input class="form-control" type="file" name="photo" required accept="image/*">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <input class="form-control" type="text" name="text" required
+                                           placeholder="Введите текст новости">
+                                </div>
+                                <div class="col-1 d-xl-flex justify-content-xl-center">
+                                    <button class="btn btn-primary" type="submit">Добавить</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div th:each="n : ${news}" class="col-6 mb-5">
+                        <div class="card shadow">
+                            <div class="card-header py-3">
+                                <div class="row">
+                                    <div class="col">
+                                        <p class="m-0 fw-bold" style="color: rgb(78,115,223);" th:text="${n.name}"></p>
+                                    </div>
+                                    <div th:if="${role == 'ADMIN'}" class="col-2 d-xl-flex justify-content-xl-center">
+                                        <a class="btn btn-danger" role="button" th:href="'/news/delete/' + ${n.id}">Удалить</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <img th:src="'/img/' + ${n.photo}" width="100%"
+                                     style="border-radius: 50px;margin-bottom: 10px;">
+                                <p th:text="${n.text}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+</div>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/theme.js"></script>
+</body>
+
+</html>

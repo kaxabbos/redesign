@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Пользователи - rep</title>
+</head>
+<head th:insert="blocks/head :: head"></head>
+<body id="page-top" class="d-flex flex-column min-vh-100">
+<div id="wrapper" class="wrapper flex-grow-1">
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <div th:insert="blocks/nav :: nav"></div>
+            <div class="container-fluid">
+                <h3 class="text-dark mb-4">Пользователи</h3>
+                <div th:if="${message}" class="alert alert-warning" role="alert">
+                    <strong th:text="${message}"></strong>
+                </div>
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <p class="text-primary m-0 fw-bold">Изменить роль</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col d-xl-flex justify-content-xl-center">
+                                <p class="lead" style="font-weight: bold;">Логин</p>
+                            </div>
+                            <div class="col d-xl-flex justify-content-xl-center">
+                                <p class="lead" style="font-weight: bold;">Роль</p>
+                            </div>
+                            <div class="col-1"></div>
+                            <div class="col-1"></div>
+                        </div>
+                        <form th:each="u : ${users}" method="post" th:action="'/users/edit/' + ${u.id}" class="mb-2">
+                            <div class="row">
+                                <div class="col">
+                                    <p class="lead" th:text="${u.username}"></p>
+                                </div>
+                                <div class="col">
+                                    <select class="form-select" name="role">
+                                        <option th:each="r : ${roles}" th:value="${r}" th:label="${r.name}"
+                                                th:selected="${r == u.role}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-1 d-xl-flex justify-content-xl-center">
+                                    <button class="btn btn-success" type="submit">Изменить</button>
+                                </div>
+                                <div class="col-1 d-xl-flex justify-content-xl-center">
+                                    <a class="btn btn-danger" th:href="'/users/delete/' + ${u.id}">Удалить</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+</div>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/theme.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<nav th:fragment="nav" class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+    <div class="container-fluid"><a
+            class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
+            href="#">
+        <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-tools"></i></div>
+        <div class="sidebar-brand-text mx-3"><span>rep</span></div>
+    </a>
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item"><a class="nav-link active" href="/" style="color: var(--bs-navbar-brand-color);">Главная</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/news" style="color: var(--bs-navbar-brand-color);">Новости</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/reviews" style="color: var(--bs-navbar-brand-color);">Отзывы</a></li>
+            <li th:if="${role == 'MANAGER' or role == 'CLIENT'}" class="nav-item"><a class="nav-link active" href="/orderings" style="color: var(--bs-navbar-brand-color);">Заявки</a></li>
+            <li th:if="${role == 'MANAGER'}" class="nav-item"><a class="nav-link active" href="/services/add" style="color: var(--bs-navbar-brand-color);">Добавить</a></li>
+            <li th:if="${role == 'ADMIN'}" class="nav-item"><a class="nav-link active" href="/users" style="color: var(--bs-navbar-brand-color);">Пользователи</a></li>
+            <li th:if="${role == 'ADMIN'}" class="nav-item"><a class="nav-link active" href="/stats" style="color: var(--bs-navbar-brand-color);">Статистика</a></li>
+            <li th:if="${role == 'NOT'}" class="nav-item"><a class="nav-link active" href="/login" style="color: var(--bs-navbar-brand-color);">Вход</a></li>
+            <li th:if="${role == 'NOT'}" class="nav-item"><a class="nav-link active" href="/reg" style="color: var(--bs-navbar-brand-color);">Регистрация</a></li>
+        </ul>
+        <ul  th:if="${role != 'NOT'}" class="navbar-nav d-xl-flex flex-nowrap ms-auto">
+            <li class="nav-item dropdown no-arrow mx-1"></li>
+            <li class="nav-item dropdown no-arrow mx-1">
+                <form action="/logout" method="post">
+                    <button class="btn btn-dark" type="submit">Выход</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
